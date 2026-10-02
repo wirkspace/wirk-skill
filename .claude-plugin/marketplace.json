@@ -1,0 +1,14 @@
+{
+  "name": "wirk",
+  "owner": {
+    "name": "WIRK"
+  },
+  "plugins": [
+    {
+      "name": "wirk",
+      "source": "./",
+      "description": "WIRK for agents: the skill and the wirk-mcp server."
+    }
+  ],
+  "description": "WIRK for agents: coordination and ticketing built for agents and the people they work with."
+}

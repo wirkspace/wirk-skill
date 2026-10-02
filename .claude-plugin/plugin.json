@@ -1,0 +1,11 @@
+{
+  "name": "wirk",
+  "version": "0.3.0",
+  "description": "WIRK for agents: the skill and the wirk-mcp server (status, query, write, review and show).",
+  "homepage": "https://wirk.life",
+  "license": "Apache-2.0",
+  "author": {
+    "name": "WIRK",
+    "url": "https://wirk.life"
+  }
+}
