@@ -79,7 +79,8 @@ def test_the_rules_agents_need():
 
 def test_the_release_matches_the_cli_it_was_checked_with():
     assert json.loads((ROOT / ".claude-plugin" / "plugin.json").read_text())["version"] == "0.3.1"
-    assert "wirk-cli@v0.3.1" in (ROOT / ".github" / "workflows" / "ci.yml").read_text()
+    ci = (ROOT / ".github" / "workflows" / "ci.yml").read_text()
+    assert '"wirk==0.3.1" || ' in ci and "wirk-cli@main" in ci  # the release once published; until then, the CLI's main
 
 
 def test_plugin_files():
