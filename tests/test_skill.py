@@ -77,6 +77,13 @@ def test_the_rules_agents_need():
     assert "kind=context" in body and "when you may make" in body and "requires_review" in body
 
 
+def test_meaning_ranking_names_pro_and_retries_follow_the_hint():
+    """Free and Team rank by words (decision 65); --request takes no --request-id, so the hint says what to run."""
+    for line in text().splitlines():
+        assert "by meaning" not in line or "Pro" in line, line
+    assert "run the command its hint prints" in text() and "--request-id` it printed" not in text()
+
+
 def test_the_release_matches_the_cli_it_was_checked_with():
     plugin = json.loads((ROOT / ".claude-plugin" / "plugin.json").read_text())
     assert plugin["version"] == "0.4.0" and "show" not in plugin["description"]
