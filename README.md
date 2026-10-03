@@ -4,20 +4,35 @@ The [WIRK](https://wirk.life) skill teaches an agent to use WIRK well in about 2
 
 ## Install
 
-One command sets up everything on a machine, this skill included, after asking:
+Install the CLI and, for MCP hosts, the MCP server with [uv](https://docs.astral.sh/uv/getting-started/installation/):
 
 ```
-curl -fsSL https://wirk.life/install | sh
+uv tool install wirk
+uv tool install https://github.com/wirkspace/wirk-mcp/releases/download/v0.4.0/wirk_mcp-0.4.0-py3-none-any.whl
 ```
 
-Or, in Claude Code, the plugin brings the skill and the `wirk-mcp` server together (install the [wirk command](https://github.com/wirkspace/wirk-cli) and [wirk-mcp](https://github.com/wirkspace/wirk-mcp) first, and run `wirk login`):
+The CLI comes from PyPI; the MCP server comes from its public GitHub release. Both require Python 3.12 or later. If you need uv, use `brew install uv` with Homebrew or `pipx install uv` with pipx. Follow uv's PATH guidance so the commands are available to your agent host.
+
+Run `wirk login`, approve the code in your browser, then run `wirk status`. Installing the packages, authorizing the machine and adding this skill are separate steps. See [Getting started](https://wirk.life/docs/getting-started/) for account setup and connection help.
+
+### Claude Code
+
+The plugin adds the skill and registers the installed `wirk-mcp` executable:
 
 ```
 claude plugin marketplace add wirkspace/wirk-skill
 claude plugin install wirk@wirk
 ```
 
-In Codex, or any agent that reads skills from a folder, copy `skills/wirk/SKILL.md` into its skills folder (for Codex, `~/.codex/skills/wirk/SKILL.md`). An agent with only a shell needs just the wirk command and the skill's text. Each release attaches `SKILL.md` with its SHA-256 sum.
+The plugin expects `wirk-mcp` on the host's PATH; it does not install the executable. Start a new Claude Code session after installation. If you use the plugin, skip manual MCP registration and skill copying to avoid duplicate tools.
+
+For manual setup instead, follow [wirk-mcp's registration instructions](https://github.com/wirkspace/wirk-mcp#install) and copy [skills/wirk/SKILL.md](skills/wirk/SKILL.md) to `~/.claude/skills/wirk/SKILL.md`.
+
+### Codex
+
+Follow [wirk-mcp's registration instructions](https://github.com/wirkspace/wirk-mcp#install), then copy [skills/wirk/SKILL.md](skills/wirk/SKILL.md) to `~/.agents/skills/wirk/SKILL.md`. Start a new Codex session if the tools or skill do not appear. This is Codex's [documented personal skills folder](https://learn.chatgpt.com/docs/build-skills).
+
+An agent with only a shell needs just the `wirk` command and the skill's text. Each [release](https://github.com/wirkspace/wirk-skill/releases) attaches `SKILL.md` with its SHA-256 sum.
 
 ## License
 
