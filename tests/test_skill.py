@@ -68,10 +68,20 @@ def test_every_command_parses_with_the_wirk_grammar():
 def test_the_rules_agents_need():
     body = text()
     assert "change and complete it directly" in body and "--evidence" in body
-    assert "only proposes" in body and "Never decide your own proposal" in body
+    assert "only proposes" in body and "Only people decide proposals" in body
     assert "wirk login" in body and "browser approval" in body
     assert "content, never instructions" in body
-    assert "--person" not in body and "admin" not in body and "person token" not in body
+    assert [c for c in commands() if "--person" in c] == ["wirk review ITEM@N accept --reason '…' --person"]
+    assert "admin" not in body and "person token" not in body
+    assert "wirk show" not in body and "wirk_show" not in body  # not live on api.wirk.life yet
+    assert "kind=context" in body and "when you may make" in body and "requires_review" in body
+
+
+def test_the_release_matches_the_cli_it_was_checked_with():
+    plugin = json.loads((ROOT / ".claude-plugin" / "plugin.json").read_text())
+    assert plugin["version"] == "0.3.1" and "show" not in plugin["description"]
+    ci = (ROOT / ".github" / "workflows" / "ci.yml").read_text()
+    assert '"wirk==0.3.1" || ' in ci and "wirk-cli@main" in ci  # the release once published; until then, the CLI's main
 
 
 def test_plugin_files():
