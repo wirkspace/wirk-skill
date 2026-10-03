@@ -18,7 +18,7 @@ Write (every result names the IDs it created):
 - A task: `wirk write new 'Title' owner=me --criterion 'Done when …' --link contributes_to:PARENT@N`.
 - Complete: `wirk write edit ITEM@N status=completed --evidence 'tests/test_x.py passes; commit 4f2a9c1'`. Evidence is the tests, a link, a file path or an upload ID. N is the rN you read; if the item changed since, fetch it again.
 - Anything else: `wirk write --request -` with JSON; `wirk write --help` shows the shapes.
-- When a person asked for the work, change and complete it directly. A background agent, acting without a person's direction, only proposes (`--propose --reason '…'`), and so does every agent for context (`kind=context`).
+- When a person asked for the work, change and complete it directly. A background agent, acting without a person's direction, only proposes (`--propose --reason '…'`). Context (`kind=context`) changes apply when your person may make them; when refused with requires_review, propose them.
 - A refused likely duplicate names the existing item: use it, or resend with `--allow-duplicate-of ID --reason '…'` when it truly differs.
 
 Only people decide proposals; yours wait. Your person decides at their own terminal: `wirk review ITEM@N accept --reason '…' --person` (or reject, or defer).
