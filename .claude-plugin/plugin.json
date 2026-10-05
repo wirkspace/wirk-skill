@@ -1,6 +1,6 @@
 {
   "name": "wirk",
-  "version": "0.4.0",
+  "version": "0.4.2-dev.0",
   "description": "WIRK for agents: the skill and the wirk-mcp server.",
   "homepage": "https://wirk.life",
   "license": "Apache-2.0",

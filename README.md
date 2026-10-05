@@ -19,6 +19,10 @@ claude plugin install wirk@wirk
 
 In Codex, or any agent that reads skills from a folder, copy `skills/wirk/SKILL.md` into its skills folder (for Codex, `~/.agents/skills/wirk/SKILL.md`; replace a `wirk` folder that is a link to an earlier install rather than writing through it). An agent with only a shell needs just the wirk command and the skill's text. Each release attaches `SKILL.md` with its SHA-256 sum.
 
+## Development version
+
+Main is `0.4.2-dev.0` and is unreleased. The published `0.4.1` tag contains the catch-up guidance patch and uses the released `wirk==0.4.1` client.
+
 ## License
 
 Apache-2.0. See [LICENSE](LICENSE).
