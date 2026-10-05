@@ -77,6 +77,17 @@ def test_the_rules_agents_need():
     assert "kind=context" in body and "when you may make" in body and "requires_review" in body
 
 
+def test_agents_claim_before_starting():
+    """Samuel, 5 October: claim wirk before starting it, so agents sharing one principal don't duplicate work."""
+    body = text()
+    assert "Claim before you start" in body and "status=in_progress owner=me" in body
+    assert "CURRENT ASSIGNMENT" in body and "another session" in body and "basis_changed" in body
+    assert "only on that branch" in body and "hand-back" in body
+    assert "not a lock" in body and "other agents are running" in body and "share" in body
+    assert "leave it and say so" in body  # an agent that won't start a claimed item says why
+    assert "Progress (a note, not the body)" in body  # progress never drifts into the claim block
+
+
 def test_meaning_ranking_names_pro_and_retries_follow_the_hint():
     """Free and Team rank by words (decision 65); --request takes no --request-id, so the hint says what to run."""
     for line in text().splitlines():
