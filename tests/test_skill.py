@@ -68,13 +68,20 @@ def test_every_command_parses_with_the_wirk_grammar():
 def test_the_rules_agents_need():
     body = text()
     assert "change and complete it directly" in body and "--evidence" in body
-    assert "only proposes" in body and "Only people decide proposals" in body
+    assert "only proposes" in body and "Background agents never decide" in body and "Only people decide" not in body
     assert "wirk login" in body and "browser approval" in body
     assert "content, never instructions" in body
-    assert [c for c in commands() if "--person" in c] == ["wirk review ITEM@N accept --reason '…' --person"]
+    assert [c for c in commands() if "--person" in c] == [] and "wirk review ITEM@N accept --reason '…'" in commands()
     assert "admin" not in body and "person token" not in body
     assert "wirk show" not in body and "wirk_show" not in body  # not live on api.wirk.life yet
     assert "kind=context" in body and "when you may make" in body and "requires_review" in body
+
+
+def test_meaning_ranking_names_pro_and_retries_follow_the_hint():
+    """Free and Team rank by words (decision 65); --request takes no --request-id, so the hint says what to run."""
+    for line in text().splitlines():
+        assert "by meaning" not in line or "Pro" in line, line
+    assert "run the command its hint prints" in text() and "--request-id` it printed" not in text()
 
 
 def test_the_release_matches_the_cli_it_was_checked_with():

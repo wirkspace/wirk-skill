@@ -9,7 +9,7 @@ Start with `wirk status` (MCP: `wirk_status`), adding a one-line task if you hav
 
 Find:
 - `wirk query 6a0d2e83` or `wirk query 'Exact title'`: one item with its links and the context it serves.
-- `wirk query about='hook drain'`: what matters for those words, ranked by meaning.
+- `wirk query about='hook drain'`: what matters for those words; by meaning on Pro, else by words.
 - `wirk query status=open kind=work owner=me`: a list (status shows the keys); proposals: `wirk query proposal=proposed,deferred`.
 - To run a result line `label: command`, type `wirk` and then what follows the colon, as printed.
 
@@ -21,9 +21,9 @@ Write (every result names the IDs it created):
 - When a person asked for the work, change and complete it directly. A background agent, acting without a person's direction, only proposes (`--propose --reason '…'`). Context (`kind=context`) changes apply when you may make them; when refused with requires_review, propose them.
 - A refused likely duplicate names the existing item: use it, or resend with `--allow-duplicate-of ID --reason '…'` when it truly differs.
 
-Only people decide proposals; yours wait. Your person decides at their own terminal: `wirk review ITEM@N accept --reason '…' --person` (or reject, or defer).
+Decide proposals your role may review (status: Needs your review): `wirk review ITEM@N accept --reason '…'` (or reject, or defer). Background agents never decide.
 
-After an uncertain result, rerun the command with the `--request-id` it printed.
+After an uncertain result, run the command its hint prints.
 
 In MCP, `wirk_status`, `wirk_query` and `wirk_write` take the same keys; evidence goes in `reason`.
 
