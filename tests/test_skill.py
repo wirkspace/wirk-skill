@@ -88,7 +88,7 @@ def test_the_release_matches_the_cli_it_was_checked_with():
     plugin = json.loads((ROOT / ".claude-plugin" / "plugin.json").read_text())
     assert plugin["version"] == "0.4.1" and "show" not in plugin["description"]
     ci = (ROOT / ".github" / "workflows" / "ci.yml").read_text()
-    assert '"wirk==0.4.1" || ' in ci and "wirk-cli@codex/package-install-docs" in ci  # candidate CLI until PyPI release
+    assert '"wirk==0.4.1" || ' in ci and "wirk-cli@e509e24164a4cd374b6bae5fdf793626e69c9b5d" in ci  # candidate CLI until PyPI release
 
 
 def test_plugin_files():
