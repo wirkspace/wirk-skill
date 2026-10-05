@@ -26,11 +26,11 @@ claude plugin install wirk@wirk
 
 The plugin expects `wirk-mcp` on the host's PATH; it does not install the executable. Start a new Claude Code session after installation. If you use the plugin, skip manual MCP registration and skill copying to avoid duplicate tools.
 
-For manual setup instead, follow [wirk-mcp's registration instructions](https://github.com/wirkspace/wirk-mcp#install) and copy [skills/wirk/SKILL.md](skills/wirk/SKILL.md) to `~/.claude/skills/wirk/SKILL.md`.
+For manual setup instead, follow [wirk-mcp's registration instructions](https://github.com/wirkspace/wirk-mcp#install) and copy [skills/wirk/SKILL.md](skills/wirk/SKILL.md) to `~/.claude/skills/wirk/SKILL.md`. Replace a `wirk` folder that is a link to an earlier install rather than writing through it.
 
 ### Codex
 
-Follow [wirk-mcp's registration instructions](https://github.com/wirkspace/wirk-mcp#install), then copy [skills/wirk/SKILL.md](skills/wirk/SKILL.md) to `~/.agents/skills/wirk/SKILL.md`. Start a new Codex session if the tools or skill do not appear. This is Codex's [documented personal skills folder](https://learn.chatgpt.com/docs/build-skills).
+Follow [wirk-mcp's registration instructions](https://github.com/wirkspace/wirk-mcp#install), then copy [skills/wirk/SKILL.md](skills/wirk/SKILL.md) to `~/.agents/skills/wirk/SKILL.md`. Replace an old `wirk` link itself before copying. Start a new Codex session if the tools or skill do not appear. This is Codex's [documented personal skills folder](https://learn.chatgpt.com/docs/build-skills).
 
 An agent with only a shell needs just the `wirk` command and the skill's text. Each [release](https://github.com/wirkspace/wirk-skill/releases) attaches `SKILL.md` with its SHA-256 sum.
 
