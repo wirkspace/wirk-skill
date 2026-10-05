@@ -1,6 +1,6 @@
 # wirk-skill
 
-The [WIRK](https://wirk.life) skill teaches an agent to use WIRK well in about 2 KB: start with `wirk status`, find with inline queries, write with short commands that state the revision they read, record progress as linked notes, complete wirk with its evidence, and leave proposals for background work. The repository is also a Claude Code plugin that carries the skill and registers the `wirk-mcp` server.
+The [WIRK](https://wirk.life) skill teaches an agent to use WIRK well in about 2 KB: start with `wirk status`, find with inline queries, claim wirk before starting it, write with short commands that state the revision they read, record progress as linked notes, complete wirk with its evidence, and leave proposals for background work. The repository is also a Claude Code plugin that carries the skill and registers the `wirk-mcp` server.
 
 ## Install
 
