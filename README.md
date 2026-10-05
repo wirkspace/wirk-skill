@@ -8,7 +8,7 @@ Install the CLI and, for MCP hosts, the MCP server with [uv](https://docs.astral
 
 ```
 uv tool install wirk
-uv tool install https://github.com/wirkspace/wirk-mcp/releases/download/v0.4.0/wirk_mcp-0.4.0-py3-none-any.whl
+uv tool install https://github.com/wirkspace/wirk-mcp/releases/download/v0.4.1/wirk_mcp-0.4.1-py3-none-any.whl
 ```
 
 The CLI comes from PyPI; the MCP server comes from its public GitHub release. Both require Python 3.12 or later. If you need uv, use `brew install uv` with Homebrew or `pipx install uv` with pipx. Follow uv's PATH guidance so the commands are available to your agent host.

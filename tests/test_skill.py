@@ -86,9 +86,9 @@ def test_meaning_ranking_names_pro_and_retries_follow_the_hint():
 
 def test_the_release_matches_the_cli_it_was_checked_with():
     plugin = json.loads((ROOT / ".claude-plugin" / "plugin.json").read_text())
-    assert plugin["version"] == "0.4.0" and "show" not in plugin["description"]
+    assert plugin["version"] == "0.4.1" and "show" not in plugin["description"]
     ci = (ROOT / ".github" / "workflows" / "ci.yml").read_text()
-    assert '"wirk==0.4.0" || ' in ci and "wirk-cli@main" in ci  # the release once published; until then, the CLI's main
+    assert '"wirk==0.4.1" || ' in ci and "wirk-cli@codex/package-install-docs" in ci  # candidate CLI until PyPI release
 
 
 def test_plugin_files():
@@ -136,6 +136,5 @@ def test_ci_installs_the_cli_by_its_package_name():
     assert '"wirk @ git+' in (ROOT / ".github" / "workflows" / "ci.yml").read_text()  # published as wirk, imported as wirk_cli
 
 
-def test_the_readme_and_release_notes_give_the_sites_install_command():
-    for name in ("README.md", ".github/workflows/release.yml"):
-        assert "curl -fsSL https://wirk.life/install | sh" in (ROOT / name).read_text(), name
+def test_the_readme_leads_with_uv_install():
+    assert "uv tool install wirk" in (ROOT / "README.md").read_text().split("### Claude Code", 1)[0]
