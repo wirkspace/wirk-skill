@@ -22,7 +22,7 @@ def commands():
 
 
 def test_size_and_front_matter():
-    assert len(text().encode()) <= 2500
+    assert len(text().encode()) <= 2650  # 2500, plus the one line on connections (wirk-core connect-by-sign-in.md 14.4)
     front = text().split("---")[1]
     assert re.search(r"^name: wirk$", front, re.M) and re.search(r"^description: .{40,1024}$", front, re.M)
 
@@ -75,6 +75,11 @@ def test_the_rules_agents_need():
     assert "admin" not in body and "person token" not in body
     assert "wirk show" not in body and "wirk_show" not in body  # not live on api.wirk.life yet
     assert "kind=context" in body and "when you may make" in body and "requires_review" in body
+
+
+def test_agents_learn_that_a_person_connects_github():
+    body = text()
+    assert "only a person connects it, on their account page" in body and "`Wirk-Completes: ITEM`" in body
 
 
 def test_agents_claim_before_starting():
