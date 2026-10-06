@@ -26,6 +26,8 @@ Write (results name new IDs):
 - Anything else: `wirk write --help`.
 - When a person asked for the work, change and complete it directly. A background agent only proposes (`--propose --reason '…'`). Context (`kind=context`) changes apply when you may make them; when refused with requires_review, propose them.
 
+GitHub: only a person connects it, on their account page; then a merged pull request with `Wirk-Completes: ITEM` proposes completing that work.
+
 Decide proposals your role may review: `wirk review ITEM@N accept --reason '…'` (or reject, or defer). Background agents never decide.
 
 After an uncertain result, run the command its hint prints. In MCP, `wirk_status`, `wirk_query` and `wirk_write` take the same keys; evidence goes in `reason`.
