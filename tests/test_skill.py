@@ -136,10 +136,10 @@ def test_release_attaches_the_skill_and_its_sum():
     """install.sh downloads SKILL.md from a release and checks it against the release's SHA256SUMS."""
     text = (ROOT / ".github" / "workflows" / "release.yml").read_text()
     assert re.search(r"tags:\s*\[\s*['\"]v\*['\"]\s*\]", text) and "secrets." not in text
-    assert "skills/wirk/SKILL.md" in text and "SHA256SUMS" in text and "gh release create" in text
+    assert "skills/wirk/SKILL.md" in text and "SHA256SUMS" in text and "publish-release.yml@" in text
     assert ".claude-plugin/plugin.json" in text  # the tag must name the plugin's version
     for use in re.findall(r"uses: (\S+)", text):
-        assert re.fullmatch(r"[\w.-]+/[\w.-]+@[0-9a-f]{40}", use), use
+        assert re.fullmatch(r"[\w.-]+/[\w.-]+(?:/\.github/workflows/[\w.-]+)?@[0-9a-f]{40}", use), use
 
 
 def test_every_workflow_parses_as_yaml():
@@ -152,6 +152,5 @@ def test_ci_installs_the_cli_by_its_package_name():
     assert '"wirk @ git+' in (ROOT / ".github" / "workflows" / "ci.yml").read_text()  # published as wirk, imported as wirk_cli
 
 
-def test_the_readme_and_release_notes_give_the_sites_install_command():
-    for name in ("README.md", ".github/workflows/release.yml"):
-        assert "curl -fsSL https://wirk.life/install | sh" in (ROOT / name).read_text(), name
+def test_the_readme_gives_the_sites_install_command():
+    assert "curl -fsSL https://wirk.life/install | sh" in (ROOT / "README.md").read_text()

@@ -2,21 +2,63 @@ name: Release
 on:
   push:
     tags: ['v*']
+  workflow_dispatch:
+    inputs:
+      verify_tag:
+        description: Existing public version tag to verify without publishing
+        type: string
+        required: true
+        default: v0.4.1
+concurrency:
+  group: release-${{ github.event_name }}-${{ inputs.verify_tag || github.ref }}
+  cancel-in-progress: false
 permissions:
-  contents: write
+  contents: read
 jobs:
-  release:
-    runs-on: ${{ github.event.repository.private && fromJSON('["self-hosted", "linux"]') || 'ubuntu-latest' }}
-    timeout-minutes: 10
+  build:
+    if: ${{ github.event_name == 'push' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
-      - name: The tag names the plugin's version
-        run: test "v$(python3 -c 'import json; print(json.load(open(".claude-plugin/plugin.json"))["version"])')" = "$GITHUB_REF_NAME"
-      - name: The skill and its SHA-256 sum, which the installer checks
-        run: mkdir dist && cp skills/wirk/SKILL.md dist/ && cd dist && sha256sum -- SKILL.md > SHA256SUMS && cat SHA256SUMS
-      - name: Attach them to the release
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5
+        with:
+          python-version: '3.12'
+      - name: The reviewed tag names this plugin's version
+        run: test "v$(python -c 'import json; print(json.load(open(".claude-plugin/plugin.json"))["version"])')" = "$GITHUB_REF_NAME"
+      - name: Wait for the matching verified public CLI dependency
         env:
-          GH_TOKEN: ${{ github.token }}
-        run: >-
-          gh release create "$GITHUB_REF_NAME" dist/SKILL.md dist/SHA256SUMS --repo "$GITHUB_REPOSITORY" --title "$GITHUB_REF_NAME"
-          --verify-tag --notes "The WIRK skill. Install everything with: curl -fsSL https://wirk.life/install | sh"
+          GIT_TERMINAL_PROMPT: "0"
+        run: |
+          curl --fail --location --retry 3 --max-time 120 https://raw.githubusercontent.com/wirkspace/wirk-cli/393f2620f1e5145c39192ea14d03b2a5767ed368/scripts/release_assets.py --output "$RUNNER_TEMP/release_assets.py"
+          python "$RUNNER_TEMP/release_assets.py" wait-cli --tag "$GITHUB_REF_NAME" --dest "$RUNNER_TEMP/public-cli"
+      - name: Test the skill against the matching public CLI
+        env:
+          PIP_DEFAULT_TIMEOUT: "30"
+        run: |
+          command -v zsh || { sudo apt-get update -q && sudo apt-get install -y -q zsh; }
+          python -m pip install "$RUNNER_TEMP"/public-cli/*.whl pytest pyyaml
+          python -m pytest tests -q -rs
+      - name: The skill and its SHA-256 sum
+        run: mkdir dist && cp skills/wirk/SKILL.md dist/ && cd dist && sha256sum -- SKILL.md > SHA256SUMS
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: dist
+          path: dist/
+  publish:
+    needs: build
+    permissions:
+      contents: write
+    uses: wirkspace/wirk-cli/.github/workflows/publish-release.yml@393f2620f1e5145c39192ea14d03b2a5767ed368
+    with:
+      kind: skill
+  verify:
+    if: ${{ github.event_name == 'workflow_dispatch' }}
+    permissions:
+      contents: read
+    uses: wirkspace/wirk-cli/.github/workflows/publish-release.yml@393f2620f1e5145c39192ea14d03b2a5767ed368
+    with:
+      kind: skill
+      verify_tag: ${{ inputs.verify_tag }}
