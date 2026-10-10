@@ -106,9 +106,9 @@ def test_meaning_ranking_names_pro_and_retries_follow_the_hint():
 
 def test_the_release_matches_the_cli_it_was_checked_with():
     plugin = json.loads((ROOT / ".claude-plugin" / "plugin.json").read_text())
-    assert plugin["version"] == "0.4.4" and "show" not in plugin["description"]
+    assert plugin["version"] == "0.4.5" and "show" not in plugin["description"]
     ci = (ROOT / ".github" / "workflows" / "ci.yml").read_text()
-    assert '"wirk==0.4.4" || ' in ci and "wirk-cli@main" in ci  # the release once published; until then, the CLI's main
+    assert '"wirk==0.4.5" || ' in ci and "wirk-cli@main" in ci  # the release once published; until then, the CLI's main
 
 
 def test_plugin_files():
