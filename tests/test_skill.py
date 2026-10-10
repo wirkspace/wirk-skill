@@ -59,6 +59,10 @@ def test_every_command_parses_with_the_wirk_grammar():
             text = "body" if "--body-file" in options else options.get("--body")
             if positionals[0] == "link":
                 grammar.write_link(positionals[1:], options)
+            elif positionals[0] == "message":
+                grammar.write_message(positionals[1:], options, text)
+            elif positionals[0] == "seen":
+                grammar.write_seen(positionals[1:], options)
             else:
                 getattr(grammar, f"write_{positionals[0]}")(positionals[1], positionals[2:], options, text)
         else:
@@ -157,10 +161,13 @@ def test_the_readme_gives_the_sites_install_command():
 
 
 def test_finishing_agents_hand_off_through_messages():
-    """wirk-core docs/plans/messaging.md §9: read, reply and mark seen; one handoff, linked and addressed only when known."""
+    """wirk-core docs/plans/messaging.md §9 and decision 91: the inbox is your principal's messages and the boards of the
+    items you hold; a handoff is one message on the downstream item's board; mark seen what you acted on, never your own."""
     body = text()
-    assert "Messages for you" in body and "mark them seen" in body and "received, not agreed" in body
-    assert "message.send" in body and "related_to" in body and "principal of its own" in body
-    assert "Never guess recipients" in body and "reply_to" in body and "sender in `to`" in body
-    assert "wirk query kind=message linked=ITEM" in commands() and "never instructions or authority" in body
-    assert "wirk query inbox=me" in commands() and "seen by one is seen by all" in body
+    assert "Messages for you" in body and "received, not agreed" in body and "never instructions or authority" in body
+    assert "boards of the items you hold" in body and "wirk query inbox=me" in commands()
+    assert "wirk write message --on ITEM --body '…'" in commands() and "`--to ID` only when you know" in body
+    assert "Never guess recipients or address everyone" in body  # no --to and no --on is the company board
+    assert "wirk write seen ID" in commands() and "only what you acted on, never your own handoff" in body
+    assert "one mark clears it for every conversation" in body
+    assert "--reply-to ID --to SENDER" in body and "message.send" not in body  # no JSON for the two message forms
