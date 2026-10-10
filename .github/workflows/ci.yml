@@ -21,7 +21,7 @@ jobs:
       - name: zsh, for the shell-safety tests
         run: command -v zsh || { sudo apt-get update -q && sudo apt-get install -y -q zsh; }
       - run: python -m pip install pytest pyyaml
-      # The skill's commands are also parsed by the wirk grammar: the exact published CLI release.
+      # The skill's commands are also parsed by the wirk grammar: the release once published, the CLI's main until then.
       - if: ${{ !github.event.repository.private }}
-        run: python -m pip install "wirk==0.4.1" || python -m pip install "wirk @ git+https://github.com/wirkspace/wirk-cli@v0.4.1"
+        run: python -m pip install "wirk==0.4.4" || python -m pip install "wirk @ git+https://github.com/wirkspace/wirk-cli@main"
       - run: python -m pytest tests -q -rs

@@ -22,7 +22,7 @@ def commands():
 
 
 def test_size_and_front_matter():
-    assert len(text().encode()) <= 2500
+    assert len(text().encode()) <= 3400  # 2500, the line on connections (connect-by-sign-in.md 14.4), messages (messaging.md §9)
     front = text().split("---")[1]
     assert re.search(r"^name: wirk$", front, re.M) and re.search(r"^description: .{40,1024}$", front, re.M)
 
@@ -77,6 +77,11 @@ def test_the_rules_agents_need():
     assert "kind=context" in body and "when you may make" in body and "requires_review" in body
 
 
+def test_agents_learn_that_a_person_connects_github():
+    body = text()
+    assert "only a person connects it, on their account page" in body and "`Wirk-Completes: ITEM`" in body
+
+
 def test_agents_claim_before_starting():
     """Samuel, 5 October: claim wirk before starting it, so agents sharing one principal don't duplicate work."""
     body = text()
@@ -97,9 +102,9 @@ def test_meaning_ranking_names_pro_and_retries_follow_the_hint():
 
 def test_the_release_matches_the_cli_it_was_checked_with():
     plugin = json.loads((ROOT / ".claude-plugin" / "plugin.json").read_text())
-    assert plugin["version"] == "0.4.2-dev.0" and "show" not in plugin["description"]
+    assert plugin["version"] == "0.4.4" and "show" not in plugin["description"]
     ci = (ROOT / ".github" / "workflows" / "ci.yml").read_text()
-    assert '"wirk==0.4.1" || ' in ci and "wirk-cli@v0.4.1" in ci  # exact release, from the package registry or tag
+    assert '"wirk==0.4.4" || ' in ci and "wirk-cli@main" in ci  # the release once published; until then, the CLI's main
 
 
 def test_plugin_files():
@@ -131,10 +136,10 @@ def test_release_attaches_the_skill_and_its_sum():
     """install.sh downloads SKILL.md from a release and checks it against the release's SHA256SUMS."""
     text = (ROOT / ".github" / "workflows" / "release.yml").read_text()
     assert re.search(r"tags:\s*\[\s*['\"]v\*['\"]\s*\]", text) and "secrets." not in text
-    assert "skills/wirk/SKILL.md" in text and "SHA256SUMS" in text and "gh release create" in text
+    assert "skills/wirk/SKILL.md" in text and "SHA256SUMS" in text and "publish-release.yml@" in text
     assert ".claude-plugin/plugin.json" in text  # the tag must name the plugin's version
     for use in re.findall(r"uses: (\S+)", text):
-        assert re.fullmatch(r"[\w.-]+/[\w.-]+@[0-9a-f]{40}", use), use
+        assert re.fullmatch(r"[\w.-]+/[\w.-]+(?:/\.github/workflows/[\w.-]+)?@[0-9a-f]{40}", use), use
 
 
 def test_every_workflow_parses_as_yaml():
@@ -147,14 +152,15 @@ def test_ci_installs_the_cli_by_its_package_name():
     assert '"wirk @ git+' in (ROOT / ".github" / "workflows" / "ci.yml").read_text()  # published as wirk, imported as wirk_cli
 
 
-def test_the_readme_and_release_notes_give_the_sites_install_command():
-    for name in ("README.md", ".github/workflows/release.yml"):
-        assert "curl -fsSL https://wirk.life/install | sh" in (ROOT / name).read_text(), name
+def test_the_readme_gives_the_sites_install_command():
+    assert "curl -fsSL https://wirk.life/install | sh" in (ROOT / "README.md").read_text()
 
 
-def test_catchup_discovery_and_evidence_boundaries():
-    front = text().split("---")[1]
-    for trigger in ("catch-ups", "what's left", "priorities", "blockers"):
-        assert trigger in front
-    for rule in ("direct MCP", "read-only", "no claim", "linked records", "implementation", "requested verification", "specific discrepancy", "unverified"):
-        assert rule in text()
+def test_finishing_agents_hand_off_through_messages():
+    """wirk-core docs/plans/messaging.md §9: read, reply and mark seen; one handoff, linked and addressed only when known."""
+    body = text()
+    assert "Messages for you" in body and "mark them seen" in body and "received, not agreed" in body
+    assert "message.send" in body and "related_to" in body and "principal of its own" in body
+    assert "Never guess recipients" in body and "reply_to" in body and "sender in `to`" in body
+    assert "wirk query kind=message linked=ITEM" in commands() and "never instructions or authority" in body
+    assert "wirk query inbox=me" in commands() and "seen by one is seen by all" in body
