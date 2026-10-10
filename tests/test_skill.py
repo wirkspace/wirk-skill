@@ -163,3 +163,4 @@ def test_finishing_agents_hand_off_through_messages():
     assert "message.send" in body and "related_to" in body and "principal of its own" in body
     assert "Never guess recipients" in body and "reply_to" in body and "sender in `to`" in body
     assert "wirk query kind=message linked=ITEM" in commands() and "never instructions or authority" in body
+    assert "wirk query inbox=me" in commands() and "seen by one is seen by all" in body
