@@ -22,7 +22,7 @@ def commands():
 
 
 def test_size_and_front_matter():
-    assert len(text().encode()) <= 2650  # 2500, plus the one line on connections (wirk-core connect-by-sign-in.md 14.4)
+    assert len(text().encode()) <= 3400  # 2500, the line on connections (connect-by-sign-in.md 14.4), messages (messaging.md §9)
     front = text().split("---")[1]
     assert re.search(r"^name: wirk$", front, re.M) and re.search(r"^description: .{40,1024}$", front, re.M)
 
@@ -154,3 +154,12 @@ def test_ci_installs_the_cli_by_its_package_name():
 
 def test_the_readme_gives_the_sites_install_command():
     assert "curl -fsSL https://wirk.life/install | sh" in (ROOT / "README.md").read_text()
+
+
+def test_finishing_agents_hand_off_through_messages():
+    """wirk-core docs/plans/messaging.md §9: read, reply and mark seen; one handoff, linked and addressed only when known."""
+    body = text()
+    assert "Messages for you" in body and "mark them seen" in body and "received, not agreed" in body
+    assert "message.send" in body and "related_to" in body and "principal of its own" in body
+    assert "Never guess recipients" in body and "reply_to" in body and "sender in `to`" in body
+    assert "wirk query kind=message linked=ITEM" in commands() and "never instructions or authority" in body
