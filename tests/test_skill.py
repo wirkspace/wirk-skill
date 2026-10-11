@@ -22,7 +22,7 @@ def commands():
 
 
 def test_size_and_front_matter():
-    assert len(text().encode()) <= 3450  # 2500, the line on connections (connect-by-sign-in.md 14.4), messages (messaging.md §9), the inbox wait
+    assert len(text().encode()) <= 3550  # 2500, the line on connections (connect-by-sign-in.md 14.4), messages (messaging.md §9), the inbox wait, a file's text
     front = text().split("---")[1]
     assert re.search(r"^name: wirk$", front, re.M) and re.search(r"^description: .{40,1024}$", front, re.M)
 
@@ -177,3 +177,8 @@ def test_finishing_agents_hand_off_through_messages():
 def test_an_idle_agent_waits_for_its_inbox_instead_of_polling():
     """decision 95: `wait=60` on inbox=me holds the answer up to a minute; the skill says so where the inbox is named."""
     assert "wait=60" in text() and "wirk query inbox=me" in commands()
+
+
+def test_find_names_how_to_read_a_files_text():
+    """2c355356's blind trial: originals downloaded, the derived text never found; the skill points at the one way."""
+    assert "whole-file `select`" in text() and "the query help shows the form" in text()
