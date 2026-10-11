@@ -181,4 +181,4 @@ def test_an_idle_agent_waits_for_its_inbox_instead_of_polling():
 
 def test_find_names_how_to_read_a_files_text():
     """2c355356's blind trial: originals downloaded, the derived text never found; the skill points at the one way."""
-    assert "whole-file `select`" in text() and "wirk query --help" in text()
+    assert "whole-file `select`" in text() and "the query help shows the form" in text()
