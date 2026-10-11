@@ -22,7 +22,7 @@ Claim before you start: agents who share a principal look like owner=me.
 - A claim is a visible reservation, not a lock. Be strictest when you see others' claims or are told other agents are running.
 
 Write:
-- Progress (a note, not the body): `wirk write new 'What I did' --body-file note.md --link related_to:ITEM`.
+- Progress (a note, not the body): `wirk write message --on ITEM --body-file note.md`.
 - Complete: `wirk write edit ITEM@N status=completed --evidence 'tests pass'`. N is the rN you read.
 - More: `wirk write --help`.
 - When a person asks, change and complete it directly. A background agent only proposes (`--propose --reason '…'`). Apply context (`kind=context`) when you may make the change; on requires_review, propose it.
