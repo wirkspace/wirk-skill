@@ -22,7 +22,7 @@ def commands():
 
 
 def test_size_and_front_matter():
-    assert len(text().encode()) <= 3400  # 2500, the line on connections (connect-by-sign-in.md 14.4), messages (messaging.md §9)
+    assert len(text().encode()) <= 3450  # 2500, the line on connections (connect-by-sign-in.md 14.4), messages (messaging.md §9), the inbox wait
     front = text().split("---")[1]
     assert re.search(r"^name: wirk$", front, re.M) and re.search(r"^description: .{40,1024}$", front, re.M)
 
@@ -106,9 +106,9 @@ def test_meaning_ranking_names_pro_and_retries_follow_the_hint():
 
 def test_the_release_matches_the_cli_it_was_checked_with():
     plugin = json.loads((ROOT / ".claude-plugin" / "plugin.json").read_text())
-    assert plugin["version"] == "0.4.7" and "show" not in plugin["description"]
+    assert plugin["version"] == "0.4.8" and "show" not in plugin["description"]
     ci = (ROOT / ".github" / "workflows" / "ci.yml").read_text()
-    assert '"wirk==0.4.7" || ' in ci and "wirk-cli@main" in ci  # the release once published; until then, the CLI's main
+    assert '"wirk==0.4.8" || ' in ci and "wirk-cli@main" in ci  # the release once published; until then, the CLI's main
 
 
 def test_plugin_files():
@@ -171,3 +171,8 @@ def test_finishing_agents_hand_off_through_messages():
     assert "wirk write seen ID" in commands() and "only what you acted on, never your own handoff" in body
     assert "one mark clears it for every conversation" in body
     assert "--reply-to ID --to SENDER" in body and "message.send" not in body  # no JSON for the two message forms
+
+
+def test_an_idle_agent_waits_for_its_inbox_instead_of_polling():
+    """decision 95: `wait=60` on inbox=me holds the answer up to a minute; the skill says so where the inbox is named."""
+    assert "wait=60" in text() and "wirk query inbox=me" in commands()
