@@ -95,6 +95,7 @@ def test_agents_claim_before_starting():
     assert "not a lock" in body and "other agents are running" in body and "share" in body
     assert "leave it and say so" in body  # an agent that won't start a claimed item says why
     assert "Progress (a note, not the body)" in body  # progress never drifts into the claim block
+    assert "`wirk write message --on ITEM --body-file note.md`" in body  # progress reaches the holder's inbox; a record would not
 
 
 def test_meaning_ranking_names_pro_and_retries_follow_the_hint():
