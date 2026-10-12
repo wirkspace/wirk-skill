@@ -1,6 +1,7 @@
 """The skill: small, every command safe in sh and zsh and parsed by the wirk grammar, and the rules agents need."""
 
 import json
+import os
 import re
 import shlex
 import subprocess
@@ -109,7 +110,36 @@ def test_the_release_matches_the_cli_it_was_checked_with():
     plugin = json.loads((ROOT / ".claude-plugin" / "plugin.json").read_text())
     assert plugin["version"] == "0.4.13" and "show" not in plugin["description"]
     ci = (ROOT / ".github" / "workflows" / "ci.yml").read_text()
-    assert '"wirk==0.4.13" || ' in ci and "wirk-cli@main" in ci  # the release once published; until then, the CLI's main
+    assert 'pip install "wirk==0.4.13"' in ci and "wirk-cli@main" not in ci
+
+
+@pytest.mark.parametrize("public,main", [(False, True), (False, False), (True, True)])
+def test_ci_requires_the_exact_cli_before_tests(tmp_path, public, main):
+    steps = yaml.load((ROOT / ".github/workflows/ci.yml").read_text(), Loader=yaml.BaseLoader)["jobs"]["verify"]["steps"]
+    install_index = next(i for i, step in enumerate(steps) if 'wirk==0.4.13' in step.get("run", ""))
+    test_index = next(i for i, step in enumerate(steps) if "pytest tests" in step.get("run", ""))
+    assert install_index < test_index
+    script = steps[install_index]["run"] + "\n" + steps[test_index]["run"]
+    fake = tmp_path / "python"
+    fake.write_text("""#!/bin/sh
+printf '%s\\n' "$*" >> "$FAKE_TRACE"
+case "$*" in
+  "-m pip install wirk==0.4.13") [ "$FAKE_PUBLIC_AVAILABLE" = 1 ] ;;
+  "-m pip install wirk @ git+https://github.com/wirkspace/wirk-cli@main") [ "$FAKE_MAIN_AVAILABLE" = 1 ] ;;
+  "-m pytest tests -q -rs") exit 0 ;;
+  *) exit 97 ;;
+esac
+""")
+    fake.chmod(0o755)
+    trace = tmp_path / "invocations.txt"
+    env = {**os.environ, "PATH": f"{tmp_path}:{os.environ['PATH']}", "FAKE_TRACE": str(trace),
+           "FAKE_PUBLIC_AVAILABLE": str(int(public)), "FAKE_MAIN_AVAILABLE": str(int(main))}
+    result = subprocess.run(["bash", "-e", "-c", script], cwd=ROOT, env=env, capture_output=True, text=True)
+    calls = trace.read_text().splitlines()
+    assert (result.returncode == 0) is public, (result.stdout, result.stderr, calls)
+    assert calls.count("-m pytest tests -q -rs") == int(public), calls
+    assert not any("git+" in call for call in calls), calls
+    assert "if" not in steps[install_index]  # private CI must require the same public CLI
 
 
 def test_plugin_files():
@@ -151,10 +181,6 @@ def test_every_workflow_parses_as_yaml():
     """GitHub rejects a workflow it cannot parse, and only says so once the workflow runs."""
     for workflow in (ROOT / ".github" / "workflows").glob("*.yml"):
         assert "jobs" in yaml.safe_load(workflow.read_text()), workflow.name
-
-
-def test_ci_installs_the_cli_by_its_package_name():
-    assert '"wirk @ git+' in (ROOT / ".github" / "workflows" / "ci.yml").read_text()  # published as wirk, imported as wirk_cli
 
 
 def test_the_readme_gives_the_sites_install_command():
