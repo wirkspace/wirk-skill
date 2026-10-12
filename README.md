@@ -10,14 +10,16 @@ One command sets up everything on a machine, this skill included, after asking:
 curl -fsSL https://wirk.life/install | sh
 ```
 
-Or, in Claude Code, the plugin brings the skill and the `wirk-mcp` server together (install the [wirk command](https://github.com/wirkspace/wirk-cli) and [wirk-mcp](https://github.com/wirkspace/wirk-mcp) first, and run `wirk login`):
+For the Claude Code plugin, first install the [wirk command](https://github.com/wirkspace/wirk-cli) and [wirk-mcp](https://github.com/wirkspace/wirk-mcp) on `PATH` and run `wirk login`; the plugin does not install them:
 
 ```
 claude plugin marketplace add wirkspace/wirk-skill
 claude plugin install wirk@wirk
 ```
 
-In Codex, or any agent that reads skills from a folder, copy `skills/wirk/SKILL.md` into its skills folder (for Codex, `~/.agents/skills/wirk/SKILL.md`; replace a `wirk` folder that is a link to an earlier install rather than writing through it). An agent with only a shell needs just the wirk command and the skill's text. Each release attaches `SKILL.md` with its SHA-256 sum.
+If you use the plugin, skip the installer’s Claude Code setup and any manual MCP registration or skill copying for Claude Code.
+
+For manual setup in Codex, or any agent that reads skills from a folder, copy `skills/wirk/SKILL.md` into its skills folder (for Codex, `~/.agents/skills/wirk/SKILL.md`; replace a `wirk` folder that is a link to an earlier install rather than writing through it). An agent with only a shell needs just the wirk command and the skill's text. Each release attaches `SKILL.md` with its SHA-256 sum.
 
 ## License
 
