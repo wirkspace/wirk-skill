@@ -13,7 +13,7 @@ Find:
 - `wirk query ID OTHER_ID` or `wirk query 'Exact title'`: batch items and links.
 - `wirk query about='hook drain'`: by meaning on Pro, else by words.
 - `wirk query status=open kind=work owner=me`: list; `wirk query proposal=proposed,deferred`: proposals.
-- A file's text and fidelity: `wirk query --request FILE` with a whole-file `select`; the query help shows the form.
+- A file's derived text: `wirk query --request FILE` with a whole-file `select`; the query help shows the form.
 - Result `label: command`: run `wirk` plus the part after the colon.
 
 Claim before you start: agents who share a principal look like owner=me.
