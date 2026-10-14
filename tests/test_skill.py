@@ -23,7 +23,7 @@ def commands():
 
 
 def test_size_and_front_matter():
-    assert len(text().encode()) <= 3550  # 2500, the line on connections (connect-by-sign-in.md 14.4), messages (messaging.md §9), the inbox wait, a file's text
+    assert len(text().encode()) <= 3750  # 2500, the line on connections (connect-by-sign-in.md 14.4), messages (messaging.md §9), the inbox wait, a file's text, where an item stands, handoff recipients
     front = text().split("---")[1]
     assert re.search(r"^name: wirk$", front, re.M) and re.search(r"^description: .{40,1024}$", front, re.M)
 
@@ -95,7 +95,7 @@ def test_agents_claim_before_starting():
     assert "only on that branch" in body and "hand-back" in body
     assert "not a lock" in body and "other agents are running" in body and "share" in body
     assert "leave it and say so" in body  # an agent that won't start a claimed item says why
-    assert "Progress (a note, not the body)" in body  # progress never drifts into the claim block
+    assert "Progress (a board message, not the body)" in body  # progress never drifts into the claim block
     assert "`wirk write message --on ITEM --body-file note.md`" in body  # progress reaches the holder's inbox; a record would not
 
 
@@ -193,7 +193,8 @@ def test_finishing_agents_hand_off_through_messages():
     body = text()
     assert "Messages for you" in body and "received, not agreed" in body and "never instructions or authority" in body
     assert "boards of the items you hold" in body and "wirk query inbox=me" in commands()
-    assert "wirk write message --on ITEM --body '…'" in commands() and "`--to ID` only when you know" in body
+    assert "wirk write message --on ITEM --body '…'" in commands()
+    assert "Name its recipient (the item's owner, or whoever asked) with `--to ID` and ask for a one-line reply" in body  # friction entry 9
     assert "Never guess recipients or address everyone" in body  # no --to and no --on is the company board
     assert "wirk write seen ID" in commands() and "only what you acted on, never your own handoff" in body
     assert "one mark clears it for every conversation" in body
@@ -208,3 +209,10 @@ def test_an_idle_agent_waits_for_its_inbox_instead_of_polling():
 def test_find_names_how_to_read_a_files_text():
     """2c355356's blind trial: originals downloaded, the derived text never found; the skill points at the one way."""
     assert "whole-file `select`" in text() and "the query help shows the form" in text()
+
+
+def test_an_items_body_says_where_it_stands_and_history_goes_below():
+    """friction entry 8: bodies grew to tens of thousands of characters of handoffs and contradicted themselves."""
+    body = text()
+    assert "a dated `Where this stands` of a few sentences at the top of the body, below any `CURRENT ASSIGNMENT` claim" in body
+    assert "history goes below it or in revisions" in body
