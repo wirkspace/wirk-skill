@@ -23,7 +23,7 @@ def commands():
 
 
 def test_size_and_front_matter():
-    assert len(text().encode()) <= 3670  # 2500, the line on connections (connect-by-sign-in.md 14.4), messages (messaging.md §9), the inbox wait, a file's text, where an item stands, handoff recipients
+    assert len(text().encode()) <= 3710  # 2500, the line on connections (connect-by-sign-in.md 14.4), messages (messaging.md §9), the inbox wait, a file's text, where an item stands, handoff recipients
     front = text().split("---")[1]
     assert re.search(r"^name: wirk$", front, re.M) and re.search(r"^description: .{40,1024}$", front, re.M)
 
@@ -214,5 +214,5 @@ def test_find_names_how_to_read_a_files_text():
 def test_an_items_body_says_where_it_stands_and_history_goes_below():
     """bed194f1 entry 8: bodies grew to tens of thousands of characters of handoffs and contradicted themselves."""
     body = text()
-    assert "a dated `Where this stands` of a few sentences at the top of the body" in body
+    assert "a dated `Where this stands` of a few sentences at the top of the body, below any `CURRENT ASSIGNMENT` claim" in body
     assert "history goes below it or in revisions" in body

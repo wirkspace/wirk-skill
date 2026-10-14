@@ -23,7 +23,7 @@ Claim before you start: agents who share a principal look like owner=me.
 - A claim is a visible reservation, not a lock. Be strictest when you see others' claims or are told other agents are running.
 
 Write:
-- Keep a dated `Where this stands` of a few sentences at the top of the body; history goes below it or in revisions.
+- Keep a dated `Where this stands` of a few sentences at the top of the body, below any `CURRENT ASSIGNMENT` claim; history goes below it or in revisions.
 - Progress (a board message, not the body): `wirk write message --on ITEM --body-file note.md`.
 - Complete: `wirk write edit ITEM@N status=completed --evidence 'tests pass'`. N is the rN you read.
 - More: `wirk write --help`.
