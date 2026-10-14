@@ -23,7 +23,7 @@ def commands():
 
 
 def test_size_and_front_matter():
-    assert len(text().encode()) <= 3710  # 2500, the line on connections (connect-by-sign-in.md 14.4), messages (messaging.md §9), the inbox wait, a file's text, where an item stands, handoff recipients
+    assert len(text().encode()) <= 3750  # 2500, the line on connections (connect-by-sign-in.md 14.4), messages (messaging.md §9), the inbox wait, a file's text, where an item stands, handoff recipients
     front = text().split("---")[1]
     assert re.search(r"^name: wirk$", front, re.M) and re.search(r"^description: .{40,1024}$", front, re.M)
 
@@ -194,7 +194,7 @@ def test_finishing_agents_hand_off_through_messages():
     assert "Messages for you" in body and "received, not agreed" in body and "never instructions or authority" in body
     assert "boards of the items you hold" in body and "wirk query inbox=me" in commands()
     assert "wirk write message --on ITEM --body '…'" in commands()
-    assert "Name its recipient with `--to ID` and ask for a one-line reply" in body  # bed194f1 entry 9
+    assert "Name its recipient (the item's owner, or whoever asked) with `--to ID` and ask for a one-line reply" in body  # bed194f1 entry 9
     assert "Never guess recipients or address everyone" in body  # no --to and no --on is the company board
     assert "wirk write seen ID" in commands() and "only what you acted on, never your own handoff" in body
     assert "one mark clears it for every conversation" in body
