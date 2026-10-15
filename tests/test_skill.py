@@ -108,15 +108,15 @@ def test_meaning_ranking_names_pro_and_retries_follow_the_hint():
 
 def test_the_release_matches_the_cli_it_was_checked_with():
     plugin = json.loads((ROOT / ".claude-plugin" / "plugin.json").read_text())
-    assert plugin["version"] == "0.4.14" and "show" not in plugin["description"]
+    assert plugin["version"] == "0.4.15" and "show" not in plugin["description"]
     ci = (ROOT / ".github" / "workflows" / "ci.yml").read_text()
-    assert 'pip install "wirk==0.4.14"' in ci and "wirk-cli@main" not in ci
+    assert 'pip install "wirk==0.4.15"' in ci and "wirk-cli@main" not in ci
 
 
 @pytest.mark.parametrize("public,main", [(False, True), (False, False), (True, True)])
 def test_ci_requires_the_exact_cli_before_tests(tmp_path, public, main):
     steps = yaml.load((ROOT / ".github/workflows/ci.yml").read_text(), Loader=yaml.BaseLoader)["jobs"]["verify"]["steps"]
-    install_index = next(i for i, step in enumerate(steps) if 'wirk==0.4.14' in step.get("run", ""))
+    install_index = next(i for i, step in enumerate(steps) if 'wirk==0.4.15' in step.get("run", ""))
     test_index = next(i for i, step in enumerate(steps) if "pytest tests" in step.get("run", ""))
     assert install_index < test_index
     script = steps[install_index]["run"] + "\n" + steps[test_index]["run"]
@@ -124,7 +124,7 @@ def test_ci_requires_the_exact_cli_before_tests(tmp_path, public, main):
     fake.write_text("""#!/bin/sh
 printf '%s\\n' "$*" >> "$FAKE_TRACE"
 case "$*" in
-  "-m pip install wirk==0.4.14") [ "$FAKE_PUBLIC_AVAILABLE" = 1 ] ;;
+  "-m pip install wirk==0.4.15") [ "$FAKE_PUBLIC_AVAILABLE" = 1 ] ;;
   "-m pip install wirk @ git+https://github.com/wirkspace/wirk-cli@main") [ "$FAKE_MAIN_AVAILABLE" = 1 ] ;;
   "-m pytest tests -q -rs") exit 0 ;;
   *) exit 97 ;;
