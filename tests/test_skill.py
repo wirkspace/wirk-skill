@@ -23,7 +23,7 @@ def commands():
 
 
 def test_size_and_front_matter():
-    assert len(text().encode()) <= 3750  # 2500, the line on connections (connect-by-sign-in.md 14.4), messages (messaging.md §9), the inbox wait, a file's text, where an item stands, handoff recipients
+    assert len(text().encode()) <= 4000  # 2500, the line on connections (connect-by-sign-in.md 14.4), messages (messaging.md §9), the inbox wait, a file's text, where an item stands, handoff recipients, execution reservations
     front = text().split("---")[1]
     assert re.search(r"^name: wirk$", front, re.M) and re.search(r"^description: .{40,1024}$", front, re.M)
 
@@ -87,14 +87,27 @@ def test_agents_learn_that_a_person_connects_github():
     assert "only a person connects it, on their account page" in body and "`Wirk-Completes: ITEM`" in body
 
 
-def test_agents_claim_before_starting():
-    """Samuel, 5 October: claim wirk before starting it, so agents sharing one principal don't duplicate work."""
+def test_agents_reserve_before_starting():
+    """Start only a vacant item, keeping the returned generation instead of copying another run's."""
     body = text()
-    assert "Claim before you start" in body and "status=in_progress owner=me" in body
-    assert "CURRENT ASSIGNMENT" in body and "another session" in body and "basis_changed" in body
-    assert "only on that branch" in body and "hand-back" in body
-    assert "not a lock" in body and "other agents are running" in body and "share" in body
-    assert "leave it and say so" in body  # an agent that won't start a claimed item says why
+    claim = body.split("Claim before you start:", 1)[1].split("\n\n", 1)[0]
+    assert len(claim.splitlines()) <= 5
+    assert "agents who share a principal look like owner=me" in claim
+    assert "Fetch the item. If its card says `reservation occupied:G`, leave it and say so; never copy that G" in claim
+    assert "Reserve at that rN" in claim
+    assert "wirk write edit ITEM@N reservation=occupied status=in_progress owner=me --request-id RUN-start --body-file claim.md" in commands()
+    assert "put `CURRENT ASSIGNMENT — session, branch, files` above the old body; keep the returned G" in claim
+    assert "On basis_changed, fetch again; if it is now occupied, leave it" in claim
+    assert "RUN is an ID you make once per run" in claim
+
+
+def test_agents_guard_edits_and_release_reservations():
+    body = text()
+    assert "Work only on that branch" in body and "Guard edits with `reservation=occupied:G`" in body
+    assert "hand back without completing with `reservation=vacant:G`" in body
+    assert "Completing (`status=completed --evidence '…'`) releases it" in body
+    assert "A reservation is a visible guard for cooperating agents, not a lock or a credential" in body
+    assert "- Complete: `wirk write edit ITEM@N status=completed --evidence 'tests pass'`. N is the rN you read." in body.splitlines()
     assert "Progress (a board message, not the body)" in body  # progress never drifts into the claim block
     assert "`wirk write message --on ITEM --body-file note.md`" in body  # progress reaches the holder's inbox; a record would not
 

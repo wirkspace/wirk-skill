@@ -17,10 +17,10 @@ Find:
 - Result `label: command`: run `wirk` plus the part after the colon.
 
 Claim before you start: agents who share a principal look like owner=me.
-- Fetch the item. If it is in_progress or starts with `CURRENT ASSIGNMENT` for another session, leave it and say so.
-- Claim at that rN: `wirk write edit ITEM@N status=in_progress owner=me --body-file claim.md`; put `CURRENT ASSIGNMENT — session, branch, files` above the old body. On basis_changed, fetch again.
-- Work only on that branch; update or drop the claim at hand-back.
-- A claim is a visible reservation, not a lock. Be strictest when you see others' claims or are told other agents are running.
+- Fetch the item. If its card says `reservation occupied:G`, leave it and say so; never copy that G.
+- Reserve at that rN: `wirk write edit ITEM@N reservation=occupied status=in_progress owner=me --request-id RUN-start --body-file claim.md`; put `CURRENT ASSIGNMENT — session, branch, files` above the old body; keep the returned G. On basis_changed, fetch again; if it is now occupied, leave it.
+- Work only on that branch. Guard edits with `reservation=occupied:G`; hand back without completing with `reservation=vacant:G`. Completing (`status=completed --evidence '…'`) releases it.
+- A reservation is a visible guard for cooperating agents, not a lock or a credential. RUN is an ID you make once per run.
 
 Write:
 - Keep a dated `Where this stands` of a few sentences at the top of the body, below any `CURRENT ASSIGNMENT` claim; history goes below it or in revisions.
