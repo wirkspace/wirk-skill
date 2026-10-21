@@ -229,3 +229,10 @@ def test_an_items_body_says_where_it_stands_and_history_goes_below():
     body = text()
     assert "a dated `Where this stands` of a few sentences at the top of the body, below any `CURRENT ASSIGNMENT` claim" in body
     assert "history goes below it or in revisions" in body
+
+
+def test_catchups_answer_from_wirk_and_offer_to_check_code():
+    """Fresh catch-up trials started from WIRK but still read the repository every time: code only on request."""
+    catchup = text().split("For catch-ups,", 1)[1].split("\n\n", 1)[0]
+    assert "Answer from WIRK alone; read code or other sources only to implement or when asked to verify, and otherwise offer to check." in catchup
+    assert "Check repository or external sources" not in text()
