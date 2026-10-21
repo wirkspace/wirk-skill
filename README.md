@@ -1,6 +1,6 @@
 # wirk-skill
 
-The [WIRK](https://wirk.life) skill teaches an agent to use WIRK well in about 2 KB: start with `wirk status`, find with inline queries, claim wirk before starting it, write with short commands that state the revision they read, record progress as linked notes, complete wirk with its evidence, and leave proposals for background work. The repository is also a Claude Code plugin that carries the skill and registers the `wirk-mcp` server.
+The [WIRK](https://wirk.life) skill teaches an agent to use WIRK well in under 4 KB: start with `wirk status`, answer catch-ups from WIRK, find with inline queries, reserve work before starting it, write with short commands that state the revision they read, post progress and handoffs on an item's board, complete work with its evidence, and leave proposals for background work. The repository is also a Claude Code plugin that carries the skill and registers the `wirk-mcp` server.
 
 ## Install
 
@@ -21,14 +21,12 @@ If you use the plugin, skip the installer’s Claude Code setup and any manual M
 
 For manual setup in Codex, or any agent that reads skills from a folder, copy `skills/wirk/SKILL.md` into its skills folder (for Codex, `~/.agents/skills/wirk/SKILL.md`; replace a `wirk` folder that is a link to an earlier install rather than writing through it). An agent with only a shell needs just the wirk command and the skill's text. Each release attaches `SKILL.md` with its SHA-256 sum.
 
+## Releasing
+
+A release is a version bump of `.claude-plugin/plugin.json` merged to main with `Release: publish wirk-skill <version>` in its squash body. After the release check passes on that exact commit, the tag `v<version>` is created there; pushing main publishes nothing, and a tag is never moved. The tag's Release workflow waits up to ten minutes for the `wirk` release of the same version, tests the skill against that public CLI, and attaches `SKILL.md` and `SHA256SUMS` to a GitHub Release. Release `wirk` first: without its matching release the tag fails and stays unpublished.
+
+New GitHub releases stay prereleases until their downloaded public bytes match the build and a clean public installation passes. Retry failed jobs to reuse the successful build artifacts: identical existing assets are retained, missing assets are uploaded, and differing bytes or a moved tag stop the run. The Release workflow's manual verification input checks an existing public tag without publishing. Publication does not update already-installed skills.
+
 ## License
 
 Apache-2.0. See [LICENSE](LICENSE).
-
-### Automated publication
-
-Push the exact reviewed version tags for the CLI, MCP and skill. Each existing Release workflow then tests and publishes its component; MCP and skill wait up to ten minutes for the matching CLI wheel and its identical PyPI distribution. Tags choose reviewed source; pushing main does not publish a release.
-
-New GitHub releases stay prereleases until their downloaded public bytes match the build and a clean public installation passes. The shared publication workflow is pinned to an exact revision. Failures appear in Actions. Retry failed jobs to reuse the successful build artifacts: identical existing assets are retained, missing assets are uploaded, and differing bytes or a moved tag stop the run. Do not overwrite a published asset to make a retry pass.
-
-The Release workflow's manual verification input checks an existing public tag without publishing. This publication automation does not update already-installed or running clients.
