@@ -41,3 +41,5 @@ Decide proposals your role may review: `wirk review ITEM@N accept --reason '…'
 After an uncertain result, run the command its hint prints. In MCP, `wirk_status` and `wirk_query` take the same keys; `wirk_write` takes operations; evidence in `reason`.
 
 No credentials, secrets or hidden prompts in WIRK.
+
+WIRK skill 0.4.29.

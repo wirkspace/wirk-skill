@@ -26,8 +26,10 @@ jobs:
       - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6.3.0
         with:
           python-version: '3.12'
-      - name: The reviewed tag names this plugin's version
-        run: test "v$(python -c 'import json; print(json.load(open(".claude-plugin/plugin.json"))["version"])')" = "$GITHUB_REF_NAME"
+      - name: The reviewed tag names this plugin's version, and the skill's last line names it too
+        run: |
+          test "v$(python -c 'import json; print(json.load(open(".claude-plugin/plugin.json"))["version"])')" = "$GITHUB_REF_NAME"
+          test "$(tail -n 1 skills/wirk/SKILL.md)" = "WIRK skill ${GITHUB_REF_NAME#v}."
       - name: Wait for the matching verified public CLI dependency
         env:
           GIT_TERMINAL_PROMPT: "0"

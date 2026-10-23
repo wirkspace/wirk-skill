@@ -5,6 +5,7 @@ import os
 import re
 import shlex
 import subprocess
+import sys
 from pathlib import Path
 
 import pytest
@@ -124,17 +125,42 @@ def test_meaning_ranking_names_pro_and_retries_follow_the_hint():
     assert "run the command its hint prints" in text() and "--request-id` it printed" not in text()
 
 
+VERSION = re.compile(r"\nWIRK skill (\d+\.\d+\.\d+)\.\n?\Z")  # the last line, as wirk's hourly update reads it
+
+
+def version():
+    return json.loads((ROOT / ".claude-plugin" / "plugin.json").read_text())["version"]
+
+
+def test_the_skill_says_its_version_on_its_last_line():
+    found = VERSION.search(text())
+    assert found and found[1] == version()
+    update = pytest.importorskip("wirk_cli.update")
+    if hasattr(update, "SKILL_VERSION"):  # the CLI that refreshes installed copies reads the same line
+        assert update.SKILL_VERSION.search(text())[1] == version()
+
+
+@pytest.mark.parametrize("tag,passes", [("plugin", True), ("v0.0.1", False)])
+def test_a_tag_publishes_only_when_the_plugin_and_the_skill_name_it(tag, passes):
+    steps = yaml.load((ROOT / ".github/workflows/release.yml").read_text(), Loader=yaml.BaseLoader)["jobs"]["build"]["steps"]
+    check = next(step for step in steps if step.get("name", "").startswith("The reviewed tag names"))
+    tag = "v" + version() if tag == "plugin" else tag
+    result = subprocess.run(["bash", "-e", "-c", check["run"]], cwd=ROOT, env={**os.environ, "GITHUB_REF_NAME": tag,
+                            "PATH": f"{Path(sys.executable).parent}:{os.environ['PATH']}"})
+    assert (result.returncode == 0) is passes
+
+
 def test_the_release_matches_the_cli_it_was_checked_with():
     plugin = json.loads((ROOT / ".claude-plugin" / "plugin.json").read_text())
-    assert plugin["version"] == "0.4.25" and "show" not in plugin["description"]
+    assert "show" not in plugin["description"]
     ci = (ROOT / ".github" / "workflows" / "ci.yml").read_text()
-    assert 'pip install "wirk==0.4.25"' in ci and "wirk-cli@main" not in ci
+    assert f'pip install "wirk=={version()}"' in ci and "wirk-cli@main" not in ci
 
 
 @pytest.mark.parametrize("public,main", [(False, True), (False, False), (True, True)])
 def test_ci_requires_the_exact_cli_before_tests(tmp_path, public, main):
     steps = yaml.load((ROOT / ".github/workflows/ci.yml").read_text(), Loader=yaml.BaseLoader)["jobs"]["verify"]["steps"]
-    install_index = next(i for i, step in enumerate(steps) if 'wirk==0.4.25' in step.get("run", ""))
+    install_index = next(i for i, step in enumerate(steps) if f'wirk=={version()}' in step.get("run", ""))
     test_index = next(i for i, step in enumerate(steps) if "pytest tests" in step.get("run", ""))
     assert install_index < test_index
     script = steps[install_index]["run"] + "\n" + steps[test_index]["run"]
@@ -142,12 +168,12 @@ def test_ci_requires_the_exact_cli_before_tests(tmp_path, public, main):
     fake.write_text("""#!/bin/sh
 printf '%s\\n' "$*" >> "$FAKE_TRACE"
 case "$*" in
-  "-m pip install wirk==0.4.25") [ "$FAKE_PUBLIC_AVAILABLE" = 1 ] ;;
+  "-m pip install wirk==VERSION") [ "$FAKE_PUBLIC_AVAILABLE" = 1 ] ;;
   "-m pip install wirk @ git+https://github.com/wirkspace/wirk-cli@main") [ "$FAKE_MAIN_AVAILABLE" = 1 ] ;;
   "-m pytest tests -q -rs") exit 0 ;;
   *) exit 97 ;;
 esac
-""")
+""".replace("VERSION", version()))
     fake.chmod(0o755)
     trace = tmp_path / "invocations.txt"
     env = {**os.environ, "PATH": f"{tmp_path}:{os.environ['PATH']}", "FAKE_TRACE": str(trace),
