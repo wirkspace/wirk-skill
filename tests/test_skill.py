@@ -87,6 +87,11 @@ def test_agents_learn_that_a_person_connects_github():
     assert "only a person connects it, on their account page" in body and "`Wirk-Completes: ITEM`" in body
 
 
+def test_mcp_writes_take_operations_not_the_clis_keys():
+    """Parity audit, 23 October: wirk_write takes operations, not owner=, status=, reservation= or --on."""
+    assert "`wirk_write` take the same keys" not in text() and "`wirk_write` takes operations" in text()
+
+
 def test_agents_reserve_before_starting():
     """Start only a vacant item, keeping the returned generation instead of copying another run's."""
     body = text()
