@@ -38,6 +38,6 @@ GitHub: only a person connects it, on their account page; then a merged pull req
 
 Decide proposals your role may review: `wirk review ITEM@N accept --reason '…'` (or reject, or defer). Background agents never decide.
 
-After an uncertain result, run the command its hint prints. In MCP, `wirk_status` and `wirk_query` take the same keys; `wirk_write` takes operations, and evidence goes in `reason`.
+After an uncertain result, run the command its hint prints. In MCP, `wirk_status` and `wirk_query` take the same keys; `wirk_write` takes operations; evidence in `reason`.
 
 No credentials, secrets or hidden prompts in WIRK.
