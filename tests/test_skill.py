@@ -119,6 +119,11 @@ def test_meaning_ranking_names_pro_and_retries_follow_the_hint():
     assert "run the command its hint prints" in text() and "--request-id` it printed" not in text()
 
 
+def test_mcp_writes_take_operations_not_the_clis_keys():
+    """Parity audit, 23 October: wirk_write takes operations, not owner=, status=, reservation= or --on."""
+    assert "`wirk_write` take the same keys" not in text() and "`wirk_write` takes operations" in text()
+
+
 def test_the_release_matches_the_cli_it_was_checked_with():
     plugin = json.loads((ROOT / ".claude-plugin" / "plugin.json").read_text())
     assert plugin["version"] == "0.4.25" and "show" not in plugin["description"]
