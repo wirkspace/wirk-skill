@@ -1,0 +1,39 @@
+WIRK skill, licensed under the Apache License, Version 2.0 (see LICENSE).
+
+This product includes material adapted from Superpowers
+(https://github.com/obra/superpowers, commit 2ce8aa15d05bd57213e6f746f953aafb7ded7a8b),
+used under the MIT License below.
+
+Modified: the Method section of skills/wirk/SKILL.md condenses ideas from Superpowers'
+writing-plans, subagent-driven-development, dispatching-parallel-agents,
+test-driven-development, verification-before-completion and
+finishing-a-development-branch skills into WIRK's own card, ticket template, size rule,
+model-tier rule, evidence rule and hand-back status words, rewritten for work items,
+reservations and boards in WIRK. Parallel waves of workers that own disjoint files are
+WIRK's departure from Superpowers' one-at-a-time dispatch. Not included: its session-start
+injection and forcing frame, brainstorming, writing-skills, worktree mechanics, reviewer
+prompt templates and ledger scripts.
+
+---
+
+MIT License
+
+Copyright (c) 2025 Jesse Vincent
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
