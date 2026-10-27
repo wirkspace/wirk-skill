@@ -25,7 +25,7 @@ Claim before you start: agents who share a principal look like owner=me.
 Write:
 - Keep a dated `Where this stands` of a few sentences at the top of the body, below any `CURRENT ASSIGNMENT` claim; history goes below it or in revisions.
 - Progress (a board message, not the body): `wirk write message --on ITEM --body-file note.md`.
-- Complete: `wirk write edit ITEM@N status=completed --evidence 'tests pass'`. N is the rN you read.
+- Complete (guard while you hold it): `wirk write edit ITEM@N status=completed reservation=occupied:G --evidence 'commit 3f9a2c4, 12 passed'`. N is the rN you read.
 - More: `wirk write --help`.
 - When a person asks, change and complete it directly. A background agent only proposes (`--propose --reason '…'`). Apply context (`kind=context`) when you may make the change; on requires_review, propose it.
 

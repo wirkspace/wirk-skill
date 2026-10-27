@@ -24,7 +24,7 @@ def commands():
 
 
 def test_size_and_front_matter():
-    assert len(text().encode()) <= 4000  # 2500, the line on connections (connect-by-sign-in.md 14.4), messages (messaging.md §9), the inbox wait, a file's text, where an item stands, handoff recipients, execution reservations
+    assert len(text().encode()) <= 4100  # 4000 before the guarded completion; 2500, the line on connections (connect-by-sign-in.md 14.4), messages (messaging.md §9), the inbox wait, a file's text, where an item stands, handoff recipients, execution reservations
     front = text().split("---")[1]
     assert re.search(r"^name: wirk$", front, re.M) and re.search(r"^description: .{40,1024}$", front, re.M)
 
@@ -113,7 +113,9 @@ def test_agents_guard_edits_and_release_reservations():
     assert "hand back without completing with `reservation=vacant:G`" in body
     assert "Completing (`status=completed --evidence '…'`) releases it" in body
     assert "A reservation is a visible guard for cooperating agents, not a lock or a credential" in body
-    assert "- Complete: `wirk write edit ITEM@N status=completed --evidence 'tests pass'`. N is the rN you read." in body.splitlines()
+    assert ("- Complete (guard while you hold it): `wirk write edit ITEM@N status=completed reservation=occupied:G "
+            "--evidence 'commit 3f9a2c4, 12 passed'`. N is the rN you read.") in body.splitlines()
+    assert "'tests pass'" not in body  # evidence names something a reviewer can check
     assert "Progress (a board message, not the body)" in body  # progress never drifts into the claim block
     assert "`wirk write message --on ITEM --body-file note.md`" in body  # progress reaches the holder's inbox; a record would not
 
