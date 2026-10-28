@@ -56,4 +56,4 @@ After an uncertain result, run the command its hint prints. In MCP, `wirk_status
 
 No credentials, secrets or hidden prompts in WIRK.
 
-WIRK skill 0.4.30.
+WIRK skill 0.4.33.
