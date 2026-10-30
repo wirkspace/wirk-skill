@@ -23,7 +23,7 @@ For manual setup in Codex, or any agent that reads skills from a folder, copy `s
 
 ## Version and updates
 
-The skill's last line names its version, for example `WIRK skill 0.4.29.`; it is the same as the plugin's version and the release tag. The `wirk` command keeps installed copies current without asking: at most once an hour, after a command, it asks GitHub for the latest release tag and, when a copy in `~/.claude/skills/wirk`, `~/.agents/skills/wirk` or `$CODEX_HOME/skills/wirk` is older, replaces it with the release's `SKILL.md` once it matches `SHA256SUMS`. A copy without a version line counts as older and is replaced. It never writes through a link or creates a folder; a copy it cannot replace is named in the line `wirk` prints once a day. Claude Code updates the plugin itself.
+The skill's last line names its version, for example `WIRK skill 0.4.30.`; it is the same as the plugin's version and the release tag. The `wirk` command keeps installed copies current without asking: at most once an hour, after a command, it asks GitHub for the latest release tag and, when a copy in `~/.claude/skills/wirk`, `~/.agents/skills/wirk` or `$CODEX_HOME/skills/wirk` is older, replaces it with the release's `SKILL.md` once it matches `SHA256SUMS`. A copy without a version line counts as older and is replaced. It never writes through a link or creates a folder; a copy it cannot replace is named in the line `wirk` prints once a day. Claude Code updates the plugin itself.
 
 ## Releasing
 
