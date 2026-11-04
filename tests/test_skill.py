@@ -24,7 +24,7 @@ def commands():
 
 
 def test_size_and_front_matter():
-    assert len(text().encode()) <= 5497  # 3997 + about 1.5 KiB for the method, folded with the claim block (4000 before it); 2500, the line on connections (connect-by-sign-in.md 14.4), messages (messaging.md §9), the inbox wait, a file's text, where an item stands, handoff recipients, execution reservations; 5497, the cheap-tier Runs on line (37 bytes more than the sentence it replaced)
+    assert len(text().encode()) <= 5460  # 3997 + about 1.5 KiB for the method, folded with the claim block (4000 before it); 2500, the line on connections (connect-by-sign-in.md 14.4), messages (messaging.md §9), the inbox wait, a file's text, where an item stands, handoff recipients, execution reservations
     front = text().split("---")[1]
     assert re.search(r"^name: wirk$", front, re.M) and re.search(r"^description: .{40,1024}$", front, re.M)
 
@@ -302,7 +302,7 @@ def test_the_method_cuts_small_tickets_and_names_their_tier():
     assert ("Runs on: write the complete change into the ticket so small can run it; standard needs a reason in the ticket; "
             "one tier up after one failed retry. Report which model ran in the hand-back.") in body
     assert "Turn count beats token price" not in body and "standard by default" not in body
-    assert "Runs on: small; plus one to three criteria" in body
+    assert "Runs on: small, The change; plus one to three criteria" in body
     assert "EXTREMELY" not in body and "1%" not in body  # Superpowers' forcing frame is left out
 
 

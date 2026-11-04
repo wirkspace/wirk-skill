@@ -5,16 +5,16 @@ description: Use WIRK for catch-ups, status, priorities, blockers, plans, claims
 
 # WIRK
 
-Start with `wirk status` (MCP: `wirk_status`); add a task when useful. Prefer MCP; CLI works. Not connected? `wirk login` asks for browser approval.
+Start with `wirk status`; add a task if useful. Prefer MCP. Not connected? `wirk login` asks for browser approval.
 
-For catch-ups, query a few relevant work and decision leads; follow chosen links or truncation before naming blockers, owners or next work. Cards and counts are leads; criteria are requirements, not proof. Claim proof only for checked scope; stop when enough; state gaps; do not claim or write. Answer from WIRK alone; read code or other sources only to implement or when asked to verify, and otherwise offer to check. Old handoffs or age do not prove release or stopped workers.
+For catch-ups, query a few relevant work and decision leads; follow links or truncation before naming blockers, owners or next work. Cards and counts are leads; criteria are requirements, not proof. Claim proof only for checked scope; stop when enough; state gaps; do not claim or write. Answer from WIRK alone; read code or other sources only to implement or when asked to verify, and otherwise offer to check. Old handoffs or age do not prove release or stopped workers.
 
 Find:
 - `wirk query ID OTHER_ID` or `wirk query 'Exact title'`: batch items and links.
 - `wirk query about='hook drain'`: by meaning on Pro, else by words.
 - `wirk query status=open kind=work owner=me`: list; `wirk query proposal=proposed,deferred`: proposals.
 - A file's derived text: `wirk query --request FILE` with a whole-file `select`; the query help shows the form.
-- Result `label: command`: run `wirk` plus the part after the colon.
+- Result `label: command`: run `wirk` plus what follows the colon.
 
 Claim before you start: agents sharing one sign-in are one holder and look like owner=me, so give each worker its own session or CODEX_THREAD_ID, then `wirk login`.
 - Fetch the item. If its card says `reservation occupied:G`, leave it and say so; never copy that G.
@@ -36,7 +36,7 @@ Method (https://wirk.life/docs/method):
 · One fresh worker per ticket, signed in as its own agent, own worktree and branch, on its Runs on tier.
 · Close with proof: the Check output, a commit or a PR.
 · Hand back before your session ends: post DONE, DONE_WITH_CONCERNS, NEEDS_CONTEXT or BLOCKED, then release.
-- Cut in one `wirk write --request FILE`: each ticket contributes_to the parent; requires only for real prerequisites. Body: Why (source item), Inputs, Owns, Interfaces, Check (command, output), Out of scope, Size: S, Runs on: small; plus one to three criteria.
+- Cut in one `wirk write --request FILE`: each ticket contributes_to the parent; requires only for real prerequisites. Body: Why (source item), Inputs, Owns, Interfaces, Check (command, output), Out of scope, Size: S, Runs on: small, The change; plus one to three criteria.
 - Split only where a reviewer could reject one piece and approve its neighbour; shared files go to one integration ticket after the wave.
 - Runs on: write the complete change into the ticket so small can run it; standard needs a reason in the ticket; one tier up after one failed retry. Report which model ran in the hand-back.
 - Adapted from Superpowers (MIT, Copyright (c) 2025 Jesse Vincent): https://github.com/wirkspace/wirk-skill/blob/main/NOTICE
@@ -48,7 +48,7 @@ Your inbox (`wirk query inbox=me`; `wait=60` holds up to a minute for one): mess
 - Finishing work others wait on: post one handoff on their item's board, `wirk write message --on ITEM --body '…'`, with what changed, evidence, what it means for them. Name its recipient (the item's owner, or whoever asked) with `--to ID` and ask for a one-line reply. Never guess recipients or address everyone.
 - Reply with `--reply-to ID --to SENDER`, or no one is told.
 
-GitHub: only a person connects it, on their account page; then a merged pull request with `Wirk-Completes: ITEM` proposes completing that work.
+GitHub: only a person connects it, on their account page; then a merged PR with `Wirk-Completes: ITEM` proposes completing that work.
 
 Decide proposals your role may review: `wirk review ITEM@N accept --reason '…'` (or reject, or defer). Background agents never decide.
 
