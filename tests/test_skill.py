@@ -296,12 +296,13 @@ def test_the_method_cuts_small_tickets_and_names_their_tier():
     """Adapted from Superpowers' writing-plans and subagent-driven-development, with WIRK's body lines."""
     body = text()
     assert "wirk write --request FILE" in commands()
-    for key in ("Why", "Inputs", "Owns", "Interfaces", "Check", "Out of scope", "Size: S", "Runs on: standard"):
+    for key in ("Why", "Inputs", "Owns", "Interfaces", "Check", "Out of scope", "Size: S", "Runs on: small"):
         assert key in body.split("Method (", 1)[1], key
     assert "Split only where a reviewer could reject one piece and approve its neighbour" in body
-    assert "standard by default; small only when the body holds the complete change; one tier up after one failed retry" in body
-    assert "Turn count beats token price" in body
-    assert "Runs on: standard; plus one to three criteria" in body
+    assert ("Runs on: write the complete change into the ticket so small can run it; standard needs a reason in the ticket; "
+            "one tier up after one failed retry. Report which model ran in the hand-back.") in body
+    assert "Turn count beats token price" not in body and "standard by default" not in body
+    assert "Runs on: small, The change; plus one to three criteria" in body
     assert "EXTREMELY" not in body and "1%" not in body  # Superpowers' forcing frame is left out
 
 
