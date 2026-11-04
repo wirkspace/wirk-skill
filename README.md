@@ -1,6 +1,6 @@
 # wirk-skill
 
-The [WIRK](https://wirk.life) skill teaches an agent to use WIRK well in under 4 KB: start with `wirk status`, answer catch-ups from WIRK, find with inline queries, reserve work before starting it, write with short commands that state the revision they read, post progress and handoffs on an item's board, complete work with its evidence, and leave proposals for background work. The repository is also a Claude Code plugin that carries the skill and registers the `wirk-mcp` server.
+The [WIRK](https://wirk.life) skill teaches an agent to use WIRK well in under 6 KB: start with `wirk status`, answer catch-ups from WIRK, find with inline queries, reserve work before starting it, write with short commands that state the revision they read, post progress and handoffs on an item's board, complete work with its evidence, and leave proposals for background work. The repository is also a Claude Code plugin that carries the skill and registers the `wirk-mcp` server.
 
 ## Install
 
@@ -19,11 +19,11 @@ claude plugin install wirk@wirk
 
 If you use the plugin, skip the installer’s Claude Code setup and any manual MCP registration or skill copying for Claude Code.
 
-For manual setup in Codex, or any agent that reads skills from a folder, copy `skills/wirk/SKILL.md` into its skills folder (for Codex, `~/.agents/skills/wirk/SKILL.md`; replace a `wirk` folder that is a link to an earlier install rather than writing through it). An agent with only a shell needs just the wirk command and the skill's text. Each release attaches `SKILL.md` with its SHA-256 sum.
+For manual setup in Codex, or any agent that reads skills from a folder, copy `skills/wirk/SKILL.md` into its skills folder (for Codex, `~/.agents/skills/wirk/SKILL.md`; for Grok, `~/.grok/skills/wirk/SKILL.md`; replace a `wirk` folder that is a link to an earlier install rather than writing through it). Grok reads the skill from its own `~/.grok/skills/wirk`, and also from `~/.agents/skills` and `~/.claude/skills`, keeping one skill per name. An agent with only a shell needs just the wirk command and the skill's text. Each release attaches `SKILL.md` with its SHA-256 sum.
 
 ## Version and updates
 
-The skill's last line names its version, for example `WIRK skill 0.4.30.`; it is the same as the plugin's version and the release tag. The `wirk` command keeps installed copies current without asking: at most once an hour, after a command, it asks GitHub for the latest release tag and, when a copy in `~/.claude/skills/wirk`, `~/.agents/skills/wirk` or `$CODEX_HOME/skills/wirk` is older, replaces it with the release's `SKILL.md` once it matches `SHA256SUMS`. A copy without a version line counts as older and is replaced. It never writes through a link or creates a folder; a copy it cannot replace is named in the line `wirk` prints once a day. Claude Code updates the plugin itself.
+The skill's last line names its version, for example `WIRK skill 0.4.30.`; it is the same as the plugin's version and the release tag. The `wirk` command keeps installed copies current without asking: at most once an hour, after a command or from its message listener, it asks GitHub for the latest release tag and, when a copy in `~/.claude/skills/wirk`, `~/.agents/skills/wirk`, `$CODEX_HOME/skills/wirk` or `$GROK_HOME/skills/wirk` (by default `~/.grok/skills/wirk`) is older, replaces it with the release's `SKILL.md` once it matches `SHA256SUMS`. A copy without a version line counts as older and is replaced. It never writes through a link or creates a folder; a copy it cannot replace is named in the line `wirk` prints once a day. Claude Code updates the plugin itself.
 
 ## Releasing
 
