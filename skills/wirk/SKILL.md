@@ -36,6 +36,7 @@ Method (https://wirk.life/docs/method):
 · One fresh worker per ticket, signed in as its own agent, own worktree and branch, on its Runs on tier.
 · Close with proof: the Check output, a commit or a PR.
 · Hand back before your session ends: post DONE, DONE_WITH_CONCERNS, NEEDS_CONTEXT or BLOCKED, then release.
+- Before design work, read the decisions in force: `wirk query about=TOPIC kind=decision state=in_force`. Replace one only with a new decision (`kind=decision owner=PERSON supersedes=ID`); never edit it.
 - Cut in one `wirk write --request FILE`: each ticket contributes_to the parent; requires only for real prerequisites. Body: Why (source item), Inputs, Owns, Interfaces, Check (command, output), Out of scope, Size: S, Runs on: small, The change; plus one to three criteria.
 - Split only where a reviewer could reject one piece and approve its neighbour; shared files go to one integration ticket after the wave.
 - Runs on: write the complete change into the ticket so small can run it; standard needs a reason in the ticket; one tier up after one failed retry. Report which model ran in the hand-back.
