@@ -24,7 +24,7 @@ def commands():
 
 
 def test_size_and_front_matter():
-    assert len(text().encode()) <= 5800  # the links sentence; decisions bullet; 3997 + about 1.5 KiB for the method, folded with the claim block (4000 before it); 2500, the line on connections (connect-by-sign-in.md 14.4), messages (messaging.md §9), the inbox wait, a file's text, where an item stands, handoff recipients, execution reservations
+    assert len(text().encode()) <= 5770  # the links sentence; decisions bullet; 3997 + about 1.5 KiB for the method, folded with the claim block (4000 before it); 2500, the line on connections (connect-by-sign-in.md 14.4), messages (messaging.md §9), the inbox wait, a file's text, where an item stands, handoff recipients, execution reservations
     front = text().split("---")[1]
     assert re.search(r"^name: wirk$", front, re.M) and re.search(r"^description: .{40,1024}$", front, re.M)
 

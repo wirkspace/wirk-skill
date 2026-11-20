@@ -9,7 +9,7 @@ Start with `wirk status`; add a task if useful. Prefer MCP. Not connected? `wirk
 
 For catch-ups, query a few relevant work and decision leads; follow chosen links or truncation before naming blockers, owners or next work. Cards and counts are leads; criteria are requirements, not proof. Claim proof only for checked scope; stop when enough; state gaps; do not claim or write. Answer from WIRK alone; read code or other sources only to implement or when asked to verify, and otherwise offer to check. Old handoffs or age do not prove release or stopped workers.
 
-Answers end with `Links:`, how to build an item's web link; link each item you name for your person.
+Query and status answers end with `Links:` (a URL with `<id>`); link each item you name for your person.
 
 Find:
 - `wirk query ID OTHER_ID` or `wirk query 'Exact title'`: batch items and links.
