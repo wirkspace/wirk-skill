@@ -21,6 +21,8 @@ If you use the plugin, skip the installer’s Claude Code setup and any manual M
 
 For manual setup in Codex, or any agent that reads skills from a folder, copy `skills/wirk/SKILL.md` into its skills folder (for Codex, `~/.agents/skills/wirk/SKILL.md`; for Grok, `~/.grok/skills/wirk/SKILL.md`; replace a `wirk` folder that is a link to an earlier install rather than writing through it). Grok reads the skill from its own `~/.grok/skills/wirk`, and also from `~/.agents/skills` and `~/.claude/skills`, keeping one skill per name. An agent with only a shell needs just the wirk command and the skill's text. Each release attaches `SKILL.md` with its SHA-256 sum.
 
+Install with skills: `npx skills add wirkspace/wirk-skill` puts the skill in the agents the [skills](https://skills.sh) command finds, for the current project or, with `-g`, for every project. It installs the skill alone; the wirk command and wirk-mcp still come from the installer or PyPI.
+
 ## Version and updates
 
 The skill's last line names its version, for example `WIRK skill 0.4.30.`; it is the same as the plugin's version and the release tag. The `wirk` command keeps installed copies current without asking: at most once an hour, after a command or from its message listener, it asks GitHub for the latest release tag and, when a copy in `~/.claude/skills/wirk`, `~/.agents/skills/wirk`, `$CODEX_HOME/skills/wirk` or `$GROK_HOME/skills/wirk` (by default `~/.grok/skills/wirk`) is older, replaces it with the release's `SKILL.md` once it matches `SHA256SUMS`. A copy without a version line counts as older and is replaced. It never writes through a link or creates a folder; a copy it cannot replace is named in the line `wirk` prints once a day. Claude Code updates the plugin itself.

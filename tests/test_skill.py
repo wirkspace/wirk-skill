@@ -233,6 +233,14 @@ def test_the_readme_gives_the_sites_install_command():
     assert "curl -fsSL https://wirk.life/install | sh" in (ROOT / "README.md").read_text()
 
 
+def test_the_skills_command_finds_the_skill_where_it_looks():
+    """npx skills add searches skills/<name>/SKILL.md and needs name and description in the front matter."""
+    assert [path.relative_to(ROOT).as_posix() for path in ROOT.glob("**/SKILL.md")] == ["skills/wirk/SKILL.md"]
+    front = yaml.safe_load(text().split("---")[1])
+    assert front["name"] == SKILL.parent.name and front["description"]
+    assert "npx skills add wirkspace/wirk-skill" in (ROOT / "README.md").read_text()
+
+
 def test_finishing_agents_hand_off_through_messages():
     """wirk-core docs/plans/messaging.md §9 and decision 91: the inbox is your principal's messages and the boards of the
     items you hold; a handoff is one message on the downstream item's board; mark seen what you acted on, never your own."""
