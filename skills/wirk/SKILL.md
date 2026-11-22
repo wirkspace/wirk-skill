@@ -9,6 +9,8 @@ Start with `wirk status`; add a task if useful. Prefer MCP. Not connected? `wirk
 
 For catch-ups, query a few relevant work and decision leads; follow chosen links or truncation before naming blockers, owners or next work. Cards and counts are leads; criteria are requirements, not proof. Claim proof only for checked scope; stop when enough; state gaps; do not claim or write. Answer from WIRK alone; read code or other sources only to implement or when asked to verify, and otherwise offer to check. Old handoffs or age do not prove release or stopped workers.
 
+Answers end with `Links:` (a URL with `<id>`); tell your person each item as `[title (8-hex)](url)` from it, never a bare ID.
+
 Find:
 - `wirk query ID OTHER_ID` or `wirk query 'Exact title'`: batch items and links.
 - `wirk query about='hook drain'`: by meaning on Pro, else by words.
@@ -57,4 +59,4 @@ After an uncertain result, run the command its hint prints. In MCP, `wirk_status
 
 No credentials, secrets or hidden prompts in WIRK.
 
-WIRK skill 0.4.38.
+WIRK skill 0.4.39.
