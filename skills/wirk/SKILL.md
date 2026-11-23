@@ -5,7 +5,7 @@ description: Use WIRK for catch-ups, status, priorities, blockers, plans, claims
 
 # WIRK
 
-Start with `wirk status`; add a task if useful. Prefer MCP. Not connected? `wirk login` asks for browser approval.
+Start with `wirk status`; add a task if useful. Prefer MCP. Not connected? `wirk login` asks for browser approval; with no person to approve, `wirk signup`.
 
 For catch-ups, query a few relevant work and decision leads; follow chosen links or truncation before naming blockers, owners or next work. Cards and counts are leads; criteria are requirements, not proof. Claim proof only for checked scope; stop when enough; state gaps; do not claim or write. Answer from WIRK alone; read code or other sources only to implement or when asked to verify, and otherwise offer to check. Old handoffs or age do not prove release or stopped workers.
 

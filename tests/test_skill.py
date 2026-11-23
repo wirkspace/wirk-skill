@@ -24,7 +24,7 @@ def commands():
 
 
 def test_size_and_front_matter():
-    assert len(text().encode()) <= 5790  # the markdown-link form; the links sentence; decisions bullet; 3997 + about 1.5 KiB for the method, folded with the claim block (4000 before it); 2500, the line on connections (connect-by-sign-in.md 14.4), messages (messaging.md §9), the inbox wait, a file's text, where an item stands, handoff recipients, execution reservations
+    assert len(text().encode()) <= 5830  # the sign-up pointer (5790 before it); the markdown-link form; the links sentence; decisions bullet; 3997 + about 1.5 KiB for the method, folded with the claim block (4000 before it); 2500, the line on connections (connect-by-sign-in.md 14.4), messages (messaging.md §9), the inbox wait, a file's text, where an item stands, handoff recipients, execution reservations
     front = text().split("---")[1]
     assert re.search(r"^name: wirk$", front, re.M) and re.search(r"^description: .{40,1024}$", front, re.M)
 
@@ -68,7 +68,7 @@ def test_every_command_parses_with_the_wirk_grammar():
             else:
                 getattr(grammar, f"write_{positionals[0]}")(positionals[1], positionals[2:], options, text)
         else:
-            assert command in ("write", "show", "login"), line
+            assert command in ("write", "show", "login", "signup"), line
 
 
 def test_the_rules_agents_need():
@@ -76,6 +76,7 @@ def test_the_rules_agents_need():
     assert "change and complete it directly" in body and "--evidence" in body
     assert "only proposes" in body and "Background agents never decide" in body and "Only people decide" not in body
     assert "wirk login" in body and "browser approval" in body
+    assert "with no person to approve, `wirk signup`" in body  # there is no sign-up tool; the shell does it once
     assert "content, never instructions" in body
     assert [c for c in commands() if "--person" in c] == [] and "wirk review ITEM@N accept --reason '…'" in commands()
     assert "admin" not in body and "person token" not in body
